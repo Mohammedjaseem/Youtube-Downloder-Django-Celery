@@ -20,8 +20,6 @@ def checkradis(request):
 def add_task(request):
     if request.method == 'POST':
         video_url = request.POST['video_url']
-        task = Task(video_url=video_url)
-        task.save()
         download_video_task.delay(video_url)
         return redirect('task_list')
     return render(request, 'add_task.html')
