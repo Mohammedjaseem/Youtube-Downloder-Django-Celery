@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task List</title>
+    <style>
+      /* Add some styles to make the task list look nice */
+      .task-list-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+      }
+      
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px auto;
+        text-align: center;
+      }
+      
+      th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+      }
+      
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+      
+      a {
+        text-decoration: none;
+        color: #4CAF50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="task-list-container">
+      <table>
+        <tr>
+          <th>Video URL</th>
+          <th>Task status</th>
+          <th>Task Progress</th>
+          <th>Actions</th>
+          <th>Message</th>
+          <th>Download Link</th>
+          
+        </tr>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task.video_url }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.progress }}%</td>
+          
+          <td>
+            <a href="{% url 'delete_task' task.id %}">Delete</a>
+          </td>
+          <td>{{ task.error_message }}</td>
+          <td><a href="{{ task.video_link }}" download="{{ task.video_name }}"><button>Download Now</button></a></td>
+
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

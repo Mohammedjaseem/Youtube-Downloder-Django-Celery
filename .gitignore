@@ -1,0 +1,33 @@
+# Mac #
+.DS_Store
+
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+# STATIC_ROOT #
+/abc 
+
+# Backup files # 
+*.bak 
+
+
+# Environments 
+.env 
+env/
+.rdb
+dump.rdb
+
+videos/
+
+
+# Sublime Text # 
+*.tmlanguage.cache 
+*.tmPreferences.cache 
+*.stTheme.cache 
+*.sublime-workspace 
+*.sublime-project 
