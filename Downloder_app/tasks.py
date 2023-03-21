@@ -14,7 +14,7 @@ def download_video_task(self, video_url):
 
     try:
         ydl_opts = {
-            'outtmpl': 'videos/%(title)s.%(ext)s'
+            'outtmpl': f'videos/{task.id}.' + '%(ext)s'
         }
         with YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=True)
@@ -22,7 +22,7 @@ def download_video_task(self, video_url):
         task.status = 'SUCCESS'
         task.progress = 100.0
         task.error_message = "No error occured"
-        task.video_link = 'videos/'+info['title']+'.'+info['ext']
+        task.video_link = 'videos/'+ f'{task.id}' +'.'+info['ext']
         task.save()
         return "Video downloader"
 
@@ -37,18 +37,24 @@ def download_video_task(self, video_url):
 def delete_file():
     print("Calling deleting fuction ########################################################")
     time = datetime.datetime.now() - datetime.timedelta(minutes=1)
-    datas = Task.objects.filter(created_on__lt=time)
+    datas = Task.objects.filter(created_on__lt=time).exclude(status="DELETED")
     for data in datas:
         try:
-            path = data.video_link
-            data.status = 'DELETED'
-            data.save()
+            path = os.path.join(os.getcwd(), data.video_link)
+            print(f"{path}, #################################")
             os.remove(path)
+            data.status = 'DELETED'
+            data.error_message = "SUCESS"
+            data.save()
+            
         except Exception as e:
+            data.status = 'DELETING FAILED'
             data.error_message = str(e)
             data.save()
 
     return "Delete Task Response"
+
+
 
     
 
